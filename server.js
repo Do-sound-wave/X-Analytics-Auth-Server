@@ -19,9 +19,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // 【重要】ログイン認証エンドポイント (あなたのフロントエンドがデータを送る場所)
 // ----------------------------------------------------
 app.post('/auth/login', (req, res) => {
-    // 1. フロントエンドから送られてきたIDとパスワードを取得
     const username = req.body.username;
     const password = req.body.password;
+    
+    // 【一時的な確認用】
+    console.log(`受信したユーザー名: ${username}`);
+    console.log(`受信したパスワード: ${password}`); // ← この行を追加
+
+    // ... 認証処理 ...
+
 
     console.log(`受信したユーザー名: ${username}`);
     // **注意:** 現時点では、データベースやスプレッドシートとの照合は行いません。
