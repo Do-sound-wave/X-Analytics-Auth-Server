@@ -10,7 +10,31 @@ const port = process.env.PORT || 3000;
 
 // ミドルウェアの設定
 // 外部からのアクセスを許可
-app.use(cors());
+// server.js (変更箇所)
+
+const allowedOrigins = [
+    // あなたの公開サイトのURLのみを許可リストに追加
+    'https://do-sound-wave.github.io', 
+    // ローカル環境でのテスト用（開発を続けるなら必要）
+    'http://localhost:3000' 
+];
+
+// CORS設定の強化
+app.use(cors({
+    origin: function (origin, callback) {
+        // originが許可リストに含まれているか、またはoriginがない場合（ローカルリクエストなど）許可
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST'], // 許可するメソッド
+    credentials: true // クッキーなどの送信を許可
+}));
+
+// フォームデータをJSON形式で解析できるように設定
+// ... (その他のコードはそのまま)
 // フォームデータをJSON形式で解析できるように設定
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
